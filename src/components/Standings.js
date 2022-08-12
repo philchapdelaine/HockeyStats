@@ -9,9 +9,12 @@ const columns = [
     { field: 'name', headerName: 'Name', width: 260 },
     { field: 'wins', headerName: 'Wins', width: 130 },
     { field: 'losses', headerName: 'Losses', width: 130 },
+    { field: 'otls', headerName: 'OTLs', width: 130 },
+    { field: 'points', headerName: 'Points', width: 130 },
 ];
 
-const rows = [
+// Just for example
+const rowsExample = [
     { id: 1, name: 'Canadiens', wins: 60, losses: 22 },
     { id: 2, name: 'Canucks', wins: 50, losses: 32 },
     { id: 3, name: 'Flames', wins: 55, losses: 27 }
@@ -23,15 +26,18 @@ const parseJSON = (data) => {
         let teamName = teamObject.team.name;
         let teamWins = teamObject.leagueRecord.wins
         let teamLosses = teamObject.leagueRecord.losses
+        let teamOTLS = teamObject.leagueRecord.ot
+        let teamPoints = teamObject.points
+
         resArray[i] = {
             id: i,
             name: teamName,
             wins: teamWins,
-            losses: teamLosses
+            losses: teamLosses,
+            otls: teamOTLS,
+            points: teamPoints
         };
-    })
-    console.log('hello');
-    console.log(resArray);
+    });
     return(resArray);
 };
 
@@ -47,6 +53,7 @@ const Standings = () => {
         axios.get(`${baseURL}/standings?season=20212022`)
           .then((res) => {
             const standings = res.data
+            console.log(standings);
             const parsedStandings = parseJSON(standings);
             setTableData(parsedStandings)
         })
