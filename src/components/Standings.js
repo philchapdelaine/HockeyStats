@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
 import axios from 'axios';
+import '../App.css'
 
 const baseURL = "https://statsapi.web.nhl.com/api/v1";
-
 
 const columns = [
     { field: 'name', headerName: 'Name', width: 240, headerClassName: 'super-app-theme--header',
@@ -22,7 +22,7 @@ const columns = [
 // ];
 
 const parseJSON = (data) => {
-    let resArray = []
+    let resArray = [];
     data.teamRecords.forEach((teamObject, i) => {
         let teamName = teamObject.team.name;
         let teamGP = teamObject.gamesPlayed;
@@ -81,6 +81,7 @@ const Standings = () => {
                     </div>
                 </div>
             </div>
+
             Western Conference
             <div style={{ height: '80vh', width: '100%' }}>
                 <div style={{ display: 'flex', height: '100%' }}>
