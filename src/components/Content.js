@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import '../App.css';
 import Standings from './Standings';
 import Skaters from './Skaters';
-import Games from './Games';
+import Today from './Today';
 import Canadiens from './Canadiens'
 
 function TabPanel(props) {
@@ -40,7 +40,7 @@ const Content = () => {
         <div className='content-container'>
             <div className='tabs'>
                 <Tabs value={value} onChange={handleChange} centered>
-                    <Tab label="Games Today" />
+                    <Tab label="Today" />
                     <Tab label="Standings" />
                     <Tab label="Skaters" />
                     <Tab label="Goalies" />
@@ -48,7 +48,7 @@ const Content = () => {
                 </Tabs>
             </div>
                 <TabPanel value={value} index={0}>
-                    <Games />
+                    <Today />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Standings />

@@ -24,6 +24,39 @@
   text-align: center;
 }
 
+.today-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  min-height: 80vh;
+}
+
+.today-title {
+  font-family: 'Roboto';
+  padding-bottom: 0.6rem;
+}
+
+.games {
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.no-games {
+  padding-top: 30%;
+}
+
+.twitter {
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
 .standings-container {
   width: 100%;
   display: flex;
@@ -47,4 +80,16 @@
   justify-content: center;
   background-color: #000000;
   color: #ffffff;
+}
+
+@media only screen and (max-width: 800px) {
+  .today-container {
+    flex-direction: column;
+  }
+  .games, .twitter {
+    width: 100%;
+  }
+  .games {
+    min-height: 80vh;
+  }
 }
