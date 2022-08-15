@@ -9,7 +9,7 @@
   height: 10vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   background-color: #000000;
   color: #ffffff;
 }
@@ -18,7 +18,7 @@
   min-height: 80vh;
   width: 100%;
   display: flex;
-  /*align-items: center;*/
+  /* align-items: center;*/
   /* justify-content: center; */
   flex-direction: column;
   text-align: center;
@@ -56,6 +56,11 @@
   padding-right: 1rem;
   padding-top: 1rem;
   padding-bottom: 2rem;
+}
+
+.canadiens-logo {
+  max-width: 4rem;
+  padding-left: 1rem;
 }
 
 .standings-container {
