@@ -14,6 +14,11 @@
   color: #ffffff;
 }
 
+.canadiens-logo {
+  height: 5vh;
+  padding-left: 1rem;
+}
+
 .content-container {
   min-height: 80vh;
   width: 100%;
@@ -56,11 +61,6 @@
   padding-right: 1rem;
   padding-top: 1rem;
   padding-bottom: 2rem;
-}
-
-.canadiens-logo {
-  max-width: 4rem;
-  padding-left: 1rem;
 }
 
 .standings-container {
