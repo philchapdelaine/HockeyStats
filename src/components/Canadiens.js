@@ -8,7 +8,11 @@ const baseURL = "https://statsapi.web.nhl.com";
 const columns = [
     { field: 'name', headerName: 'Name', width: 240, headerClassName: 'super-app-theme--header',
         headerAlign: 'center' },
+    { field: 'games', headerName: 'Games Played', width: 100 },
+    { field: 'goals', headerName: 'Goals', width: 100 },
+    { field: 'assists', headerName: 'Assists', width: 100 },
     { field: 'points', headerName: 'Points', width: 100 },
+    { field: 'gamescore', headerName: 'Gamescore', width: 100 },
 ];
 
 let year = '20212022';
@@ -33,8 +37,19 @@ const getStats = (data) => {
             const playerStats = res.data;
             const singlePlayer = playerStats.stats[0].splits[0].stat;
             
+            playerObject.games = singlePlayer.games || 0;
+            playerObject.goals = singlePlayer.goals || 0;
+            playerObject.assists = singlePlayer.assists || 0;
             playerObject.points = singlePlayer.points || 0;
-        })
+
+            playerObject.gamescore = ((
+                (0.75 * singlePlayer.goals) +
+                (0.635 * singlePlayer.assists) + 
+                (0.075 * singlePlayer.shots) + 
+                (0.05 * singlePlayer.blocked) -
+                (0.15 * singlePlayer.penaltyMinutes)
+            ) / singlePlayer.games).toFixed(2) || 0;
+        });
 
         resArray[i] = playerObject;
 
@@ -52,7 +67,7 @@ const Canadiens = () => {
             setTableData(parsedPlayers);
         })
         }, [])
-    console.log(tableData)
+    console.log(tableData);
 
   return (
     <div className='canadiens-container'>
