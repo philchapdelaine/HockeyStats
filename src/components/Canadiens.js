@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
 import axios from 'axios';
-import '../App.css'
+import '../App.css';
 
 const baseURL = "https://statsapi.web.nhl.com";
 
@@ -12,10 +12,38 @@ const columns = [
     { field: 'goals', headerName: 'Goals', width: 100 },
     { field: 'assists', headerName: 'Assists', width: 100 },
     { field: 'points', headerName: 'Points', width: 100 },
+    { field: 'plusMinus', headerName: '+/-', width: 100 },
+    { field: 'powerPlayGoals', headerName: 'Power Play Goals', width: 100 },
+    { field: 'powerPlayPoints', headerName: 'Power Play Points', width: 100 },
+    { field: 'powerPlayPointsPer60', headerName: 'Power Play Points per 60', width: 100 },
     { field: 'gamescore', headerName: 'Gamescore', width: 100 },
 ];
 
 let year = '20212022';
+
+function time2dec(tIn) {
+    try {
+        if(tIn == '') 
+            return 0;
+        if(tIn.indexOf('h') >= 0 || tIn.indexOf(':') >= 0)
+            return hm2dec(tIn.split(/[h:]/));
+        if(tIn.indexOf('m') >= 0)
+            return hm2dec([0,tIn.replace('m','')]);
+        if(tIn.indexOf(',') >= 0)
+            return parseFloat(tIn.split(',').join('.')).toFixed(2);
+        if(tIn.indexOf('.') >= 0)
+            return parseFloat(tIn);
+        return parseInt(tIn, 10);
+    }
+    catch(err){
+    };
+}
+
+function hm2dec(hoursMinutes) {
+    var hours = parseInt(hoursMinutes[0], 10);
+    var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+    return (hours + minutes / 60).toFixed(2);
+}
 
 const getStats = (data) => {
     let resArray = [];
@@ -36,11 +64,18 @@ const getStats = (data) => {
             .then((res) => {
             const playerStats = res.data;
             const singlePlayer = playerStats.stats[0].splits[0].stat;
-            
+
             playerObject.games = singlePlayer.games || 0;
             playerObject.goals = singlePlayer.goals || 0;
             playerObject.assists = singlePlayer.assists || 0;
             playerObject.points = singlePlayer.points || 0;
+            playerObject.plusMinus = singlePlayer.plusMinus || 0;
+            playerObject.powerPlayGoals = singlePlayer.powerPlayGoals || 0;
+            playerObject.powerPlayPoints = singlePlayer.powerPlayPoints || 0;
+            playerObject.powerPlayPointsPer60 = ((
+                singlePlayer.powerPlayPoints / time2dec(singlePlayer.powerPlayTimeOnIce)
+                ) * 60 ).toFixed(2) || 0;
+            playerObject.plusMinus = singlePlayer.plusMinus || 0;
 
             playerObject.gamescore = ((
                 (0.75 * singlePlayer.goals) +
@@ -67,7 +102,7 @@ const Canadiens = () => {
             setTableData(parsedPlayers);
         })
         }, [])
-    console.log(tableData);
+    // console.log(tableData);
 
   return (
     <div className='canadiens-container'>
