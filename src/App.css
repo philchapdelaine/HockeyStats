@@ -32,7 +32,7 @@
 }
 
 .today-title {
-  font-family: 'Roboto';
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
   padding-bottom: 0.6rem;
 }
 
@@ -41,6 +41,8 @@
   align-items: center;
   justify-content: center;
   padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .no-games {
@@ -51,7 +53,6 @@
   width: 50%;
   align-items: center;
   justify-content: center;
-  padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
   padding-bottom: 2rem;

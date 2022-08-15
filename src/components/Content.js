@@ -39,7 +39,14 @@ const Content = () => {
     return (
         <div className='content-container'>
             <div className='tabs'>
-                <Tabs value={value} onChange={handleChange} centered>
+                <Tabs 
+                    value={value} 
+                    onChange={handleChange} 
+                    centered 
+                    TabIndicatorProps={{
+                        style: { background: "red"}
+                     }}
+                >
                     <Tab label="Today" />
                     <Tab label="Standings" />
                     <Tab label="Skaters" />
