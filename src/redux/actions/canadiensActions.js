@@ -2,6 +2,32 @@ import axios from 'axios';
 
 const baseURL = "https://statsapi.web.nhl.com";
 
+let year = '20222023';
+
+function time2dec(tIn) {
+    try {
+        if(tIn == '') 
+            return 0;
+        if(tIn.indexOf('h') >= 0 || tIn.indexOf(':') >= 0)
+            return hm2dec(tIn.split(/[h:]/));
+        if(tIn.indexOf('m') >= 0)
+            return hm2dec([0,tIn.replace('m','')]);
+        if(tIn.indexOf(',') >= 0)
+            return parseFloat(tIn.split(',').join('.')).toFixed(2);
+        if(tIn.indexOf('.') >= 0)
+            return parseFloat(tIn);
+        return parseInt(tIn, 10);
+    }
+    catch(err){
+    };
+}
+
+function hm2dec(hoursMinutes) {
+    var hours = parseInt(hoursMinutes[0], 10);
+    var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+    return (hours + minutes / 60).toFixed(2);
+}
+
 const getStats = (data) => {
     let resArray = [];
     const roster = data.roster;
@@ -20,7 +46,6 @@ const getStats = (data) => {
         axios.get(`${baseURL}${playerLink}/stats?stats=statsSingleSeason&season=${year}`)
             .then((res) => {
             const playerStats = res.data;
-            console.log(playerStats);
             if (playerStats.stats[0].splits.length == 0) {
                 playerObject.games = 0;
                 playerObject.goals = 0;
@@ -75,7 +100,6 @@ const getStats = (data) => {
                 }
             }
         });
-
         resArray[i] = playerObject;
 
     }); 
@@ -83,11 +107,21 @@ const getStats = (data) => {
 }
 
 export const fetchStats = () => {
-    const stats = await axios.get(`${baseURL}/api/v1/teams/8/roster`);
-    let parsedPlayerStats = getStats(stats);
-
-    return {
-        type: 'FETCH_STATS',
-        payload: parsedPlayerStats
+    return function(dispatch) {
+        dispatch({ type: "FETCH_STATS"})
+        axios.get(`${baseURL}/api/v1/teams/8/roster`)
+            .then((response) => {
+                const parsed = getStats(response.data);
+                dispatch({
+                    type: "FETCH_STATS_FULFILLED",
+                    payload: parsed
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: "FETCH_STATS_REJECTED",
+                    payload: err
+                })
+            })
     }
 };

@@ -5,11 +5,13 @@ import Footer from './components/Footer'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { fetchStandings } from './redux/actions/standingsActions';
+import { fetchStats } from './redux/actions/canadiensActions';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
       dispatch(fetchStandings());
+      dispatch(fetchStats());
     }, []);
 
   return (
