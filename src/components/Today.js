@@ -50,6 +50,7 @@ const Today = () => {
           options={{height: 600}}
           noHeader
           noFooter
+          noBorders
           noScrollbar
         />
       </div>

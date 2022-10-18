@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
-import axios from 'axios';
 import '../App.css'
-
-const baseURL = "https://statsapi.web.nhl.com/api/v1";
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchStandings } from '../redux/actions/standingsActions';
 
 const columns = [
     { field: 'name', headerName: 'Name', width: 240, headerClassName: 'super-app-theme--header',
@@ -21,51 +20,14 @@ const columns = [
 //     { id: 2, name: 'Canucks', wins: 50, losses: 32, otls: 10, points: 80  }
 // ];
 
-const parseJSON = (data) => {
-    let resArray = [];
-    data.teamRecords.forEach((teamObject, i) => {
-        let teamName = teamObject.team.name;
-        let teamGP = teamObject.gamesPlayed;
-        let teamWins = teamObject.leagueRecord.wins
-        let teamLosses = teamObject.leagueRecord.losses
-        let teamOTLS = teamObject.leagueRecord.ot
-        let teamPoints = teamObject.points
-
-        resArray[i] = {
-            id: i,
-            name: teamName,
-            gp: teamGP,
-            wins: teamWins,
-            losses: teamLosses,
-            otls: teamOTLS,
-            points: teamPoints
-        };
-    });
-    return(resArray);
-};
-
-// axios.get(`${baseURL}/standings?season=20212022/byConference`)
-//       .then(res => {
-//         const persons = res.data;
-//         this.setState({ persons });
-//       })
-
 const Standings = () => {
-    const [easternTableData, setEasternTableData] = useState([])
-    const [westernTableData, setWesternTableData] = useState([])
-    useEffect(() => {
-        axios.get(`${baseURL}/standings/byConference`)
-          .then((res) => {
-            const easternStandings = res.data.records[0];
-            const westernStandings = res.data.records[1];
-
-            const parsedEasternStandings = parseJSON(easternStandings);
-            setEasternTableData(parsedEasternStandings);
-            const parsedWesternStandings = parseJSON(westernStandings);
-            setWesternTableData(parsedWesternStandings);
-        })
-      }, [])
-       console.log(easternTableData)
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(fetchStandings());
+    //   }, [])
+    
+    const easternTableData = useSelector((state) => state.standingsReducer.eastern);
+    const westernTableData = useSelector((state) => state.standingsReducer.western);
     
     return (
         <div className='standings-container'>

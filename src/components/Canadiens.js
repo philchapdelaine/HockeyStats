@@ -3,6 +3,8 @@ import { DataGrid, } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+// import fetchStats from '../redux/actions/canadiensActions';
 import '../App.css';
 
 const baseURL = "https://statsapi.web.nhl.com";
@@ -149,8 +151,9 @@ const getStats = (data) => {
 }
 
 const Canadiens = () => {
+    const dispatch = useDispatch();
     const [tableData, setTableData] = useState([]);
-    useEffect(() => {
+    useEffect(() => { 
         axios.get(`${baseURL}/api/v1/teams/8/roster`)
             .then((res) => {
             const players = res.data;
