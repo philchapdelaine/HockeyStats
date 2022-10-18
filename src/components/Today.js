@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
 import axios from 'axios';
 import '../App.css'
 
@@ -38,7 +38,7 @@ const Today = () => {
             tableData.totalGames === 0 ?
             <div className='no-games'>No Games Today</div>
             :
-            <div>Todo Add Games</div>
+            <div>Yes, there are games today: TODO Add Games</div>
         }
       </div>
       
@@ -48,9 +48,9 @@ const Today = () => {
           sourceType="profile"
           screenName="HabsEOTP"
           options={{height: 600}}
-          noScrollbar
-          noFooter
           noHeader
+          noFooter
+          noScrollbar
         />
       </div>
 
@@ -60,11 +60,13 @@ const Today = () => {
           sourceType="profile"
           screenName="JFreshHockey"
           options={{height: 600}}
-          noScrollbar
-          noFooter
           noHeader
+          noFooter
+          noScrollbar
         />
       </div>
+
+
     </div>
   )
 }
