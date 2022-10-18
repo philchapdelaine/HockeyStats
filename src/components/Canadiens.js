@@ -15,6 +15,7 @@ const columns = [
     { field: 'goals', headerName: 'G', width: 70 },
     { field: 'assists', headerName: 'A', width: 70 },
     { field: 'points', headerName: 'P', width: 70 },
+    { field: 'pointsPerGame', headerName: 'P/G', width: 70 },
     { field: 'plusMinus', headerName: '+/-', width: 70 },
     { field: 'gamescore', headerName: 'Gamescore', width: 100, 
         cellClassName: (params) => {
@@ -30,6 +31,7 @@ const columns = [
             });
         }
     },
+    { field: 'timeOnIce', headerName: 'TOI', width: 70 },
     { field: 'powerPlayGoals', headerName: 'PPG', width: 70 },
     { field: 'powerPlayPoints', headerName: 'PPA', width: 70 },
     { field: 'powerPlayPointsPer60', headerName: 'PPP/60', width: 70 },
@@ -90,12 +92,17 @@ const getStats = (data) => {
                 playerObject.goals = 0;
                 playerObject.assists = 0;
                 playerObject.points = 0;
+                playerObject.pointsPerGame = 0;
                 playerObject.plusMinus = 0;
                 playerObject.powerPlayGoals = 0;
                 playerObject.powerPlayPoints = 0;
                 playerObject.powerPlayPointsPer60 = 0;
                 playerObject.plusMinus = 0;
                 playerObject.gamescore = 0;
+                playerObject.timeOnIce = 0;
+                playerObject.shots = 0;
+                playerObject.shootingpercentage = 0;
+                playerObject.faceoffPercentage = 0;
 
             } else {
                 const singlePlayer = playerStats.stats[0].splits[0].stat;
@@ -104,6 +111,8 @@ const getStats = (data) => {
                 playerObject.goals = singlePlayer.goals || 0;
                 playerObject.assists = singlePlayer.assists || 0;
                 playerObject.points = singlePlayer.points || 0;
+                playerObject.pointsPerGame = singlePlayer.points / singlePlayer.games || 0;
+                playerObject.timeOnIce = singlePlayer.timeOnIcePerGame || 0;
                 playerObject.plusMinus = singlePlayer.plusMinus || 0;
                 playerObject.powerPlayGoals = singlePlayer.powerPlayGoals || 0;
                 playerObject.powerPlayPoints = singlePlayer.powerPlayPoints || 0;
@@ -115,6 +124,9 @@ const getStats = (data) => {
                     playerObject.powerPlayPointsPer60 = 0.00;
                 }
                 playerObject.plusMinus = singlePlayer.plusMinus || 0;
+                playerObject.shots = singlePlayer.shots;
+                playerObject.shootingpercentage = singlePlayer.shotPct;
+                playerObject.faceoffPercentage = singlePlayer.faceOffPct;
 
                 playerObject.gamescore = ((
                     (0.75 * singlePlayer.goals) +
