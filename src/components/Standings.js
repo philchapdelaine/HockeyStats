@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
 import '../App.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStandings } from '../redux/actions/standingsActions';
 
 const columns = [
     { field: 'name', headerName: 'Name', width: 240, headerClassName: 'super-app-theme--header',
@@ -21,11 +20,6 @@ const columns = [
 // ];
 
 const Standings = () => {
-    // const dispatch = useDispatch();
-    // useEffect(() => {
-    //     dispatch(fetchStandings());
-    //   }, [])
-    
     const easternTableData = useSelector((state) => state.standingsReducer.eastern);
     const westernTableData = useSelector((state) => state.standingsReducer.western);
     

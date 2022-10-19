@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
-import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import axios from 'axios';
 import '../App.css'
 
@@ -51,6 +51,7 @@ const Today = () => {
           noHeader
           noFooter
           noBorders
+          tweetLimit="3"
           noScrollbar
         />
       </div>
@@ -63,6 +64,8 @@ const Today = () => {
           options={{height: 600}}
           noHeader
           noFooter
+          noBorders
+          tweetLimit="5"
           noScrollbar
         />
       </div>

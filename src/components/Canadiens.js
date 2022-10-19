@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { DataGrid, } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStats } from '../redux/actions/canadiensActions';
 import '../App.css';
 
 const baseURL = "https://statsapi.web.nhl.com";
@@ -27,8 +25,8 @@ const columns = [
     
             return clsx('super-app', {
                 replacement: params.value < 0.1,
-                topNine: params.value >= 0.2 && params. value < 0.5,
-                topSix: params.value >= 0.5 && params. value < 1.00,
+                topNine: params.value >= 0.2 && params.value < 0.5,
+                topSix: params.value >= 0.5 && params.value < 1.00,
                 star: params.value >= 1.00
             });
         }
