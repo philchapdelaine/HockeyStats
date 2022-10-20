@@ -6,7 +6,8 @@ import '../App.css';
 import Standings from './Standings';
 import Skaters from './Skaters';
 import Today from './Today';
-import Canadiens from './Canadiens'
+import Canadiens from './Canadiens';
+import Fantasy from './Fantasy';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -51,7 +52,8 @@ const Content = () => {
                     <Tab label="Standings" />
                     <Tab label="Skaters" />
                     <Tab label="Goalies" />
-                    <Tab label= "Canadiens" />
+                    <Tab label="Canadiens" />
+                    <Tab label="Fantasy" />
                 </Tabs>
             </div>
                 <TabPanel value={value} index={0}>
@@ -68,6 +70,9 @@ const Content = () => {
                 </TabPanel> 
                 <TabPanel value={value} index={4}>
                     <Canadiens />
+                </TabPanel>    
+                <TabPanel value={value} index={5}>
+                    <Fantasy />
                 </TabPanel>       
         </div>
     )

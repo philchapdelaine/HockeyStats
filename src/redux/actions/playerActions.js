@@ -76,6 +76,7 @@ const getStats = (data) => {
                 playerObject.plusMinus = singlePlayer.plusMinus || 0;
                 playerObject.powerPlayGoals = singlePlayer.powerPlayGoals || 0;
                 playerObject.powerPlayPoints = singlePlayer.powerPlayPoints || 0;
+                playerObject.powerPlayAssists = singlePlayer.powerPlayPoints - singlePlayer.powerPlayGoals || 0;
                 playerObject.powerPlayPointsPer60 = ((
                     singlePlayer.powerPlayPoints / time2dec(singlePlayer.powerPlayTimeOnIce)
                     ) * 60 ).toFixed(2) || 0;
@@ -83,11 +84,17 @@ const getStats = (data) => {
                 if (isNaN(playerObject.powerPlayPointsPer60)) {
                     playerObject.powerPlayPointsPer60 = 0.00;
                 }
+                playerObject.powerPlayTimeOnIcePerGame = singlePlayer.powerPlayTimeOnIcePerGame || 0;
+                playerObject.hits = singlePlayer.hits || 0;
                 playerObject.plusMinus = singlePlayer.plusMinus || 0;
                 playerObject.shots = singlePlayer.shots;
                 playerObject.shootingpercentage = singlePlayer.shotPct;
                 playerObject.faceoffPercentage = singlePlayer.faceOffPct;
-
+                playerObject.gameWinningGoals = singlePlayer.gameWinningGoals || 0;
+                playerObject.blocks = singlePlayer.blocked || 0;
+                playerObject.shortHandedGoals = singlePlayer.shortHandedGoals || 0;
+                playerObject.shortHandedPoints = singlePlayer.shortHandedPoints || 0;
+                playerObject.shortHandedAssists = singlePlayer.shortHandedPoints - singlePlayer.shortHandedGoals || 0;
                 playerObject.gamescore = ((
                     (0.75 * singlePlayer.goals) +
                     (0.635 * singlePlayer.assists) + 
@@ -128,10 +135,10 @@ const getStats = (data) => {
 // };
 
 export const fetchPlayerStats = () => {
-    return function(dispatch) {
+    return async function(dispatch) {
         dispatch({ type: "FETCH_PLAYER_STATS"});
         for (let teamID in teamIDs) {
-            axios.get(`${baseURL}/api/v1/teams/${teamID}/roster`)
+            await axios.get(`${baseURL}/api/v1/teams/${teamID}/roster`)
              .then((response) => {
                 const parsed = getStats(response.data);
                 dispatch({
