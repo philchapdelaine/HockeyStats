@@ -30,7 +30,6 @@ const parseJSON = (data) => {
 };
 
 const standingsReducer = (state = INITIAL_STATE, action) => {
-    console.log("fetching standings");
     switch(action.type) {
         case "FETCH_STANDINGS": {
             return {

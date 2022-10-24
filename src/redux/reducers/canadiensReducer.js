@@ -6,7 +6,6 @@ const INITIAL_STATE = {
 }
 
 const canadiensReducer = (state = INITIAL_STATE, action) => {
-    console.log("fetching habs");
     switch(action.type) {
         case "FETCH_STATS": {
             return {

@@ -27,7 +27,7 @@ const Today = () => {
             setTableData(games);
         })
       }, [])
-       console.log(tableData)
+      // console.log(tableData)
 
   return (
     <div className='today-container'>

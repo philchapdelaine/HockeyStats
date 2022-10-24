@@ -74,6 +74,22 @@
   flex-direction: column;
 }
 
+.fantasy-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.fantasy-sidebar-header {
+  padding-bottom: 0.5rem;
+}
+
+.fantasy-button {
+  padding-top: 1rem;
+}
+
 .tab-panel {
   display: flex;
   min-height: 80vh;
