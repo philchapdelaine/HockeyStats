@@ -4,21 +4,24 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
+import { updatePlayerStats } from '../redux/actions/playerActions';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import '../App.css'
 
 const columns = [
-    { field: 'name', headerName: 'Name', width: 200, headerClassName: 'super-app-theme--header',
+    { field: 'name', headerName: 'Name', width: 160, headerClassName: 'super-app-theme--header',
         headerAlign: 'center' },
-    { field: 'position', headerName: 'Pos', width: 70 },
-    { field: 'fantasyPTS', headerName: 'FPts', width: 70 },
-    { field: 'fantasyPTSPerGame', headerName: 'FPts/G', width: 70 },
-    { field: 'games', headerName: 'GP', width: 70 },
-    { field: 'goals', headerName: 'G', width: 70 },
-    { field: 'assists', headerName: 'A', width: 70 },
-    { field: 'points', headerName: 'P', width: 70 },
-    { field: 'pointsPerGame', headerName: 'P/G', width: 70 },
-    { field: 'plusMinus', headerName: '+/-', width: 70 },
+    { field: 'position', headerName: 'Pos', width: 70, headerClassName: 'super-app-theme--header'},
+    { field: 'fantasyPTS', headerName: 'FPts', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'fantasyPTSPerGame', headerName: 'FPts/G', width: 90, headerClassName: 'super-app-theme--header' },
+    { field: 'games', headerName: 'GP', width: 70, headerClassName: 'super-app-theme--header'},
+    { field: 'goals', headerName: 'G', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'assists', headerName: 'A', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'points', headerName: 'P', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'pointsPerGame', headerName: 'P/G', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'plusMinus', headerName: '+/-', width: 70, headerClassName: 'super-app-theme--header' },
     { field: 'gamescore', headerName: 'Gamescore', width: 100, 
         cellClassName: (params) => {
             if (params.value == null) {
@@ -31,19 +34,21 @@ const columns = [
                 topSix: params.value >= 0.5 && params.value < 1.00,
                 star: params.value >= 1.00
             });
-        }
+        }, 
+        headerClassName: 'super-app-theme--header'
     },
-    { field: 'timeOnIce', headerName: 'TOI', width: 70 },
-    { field: 'powerPlayGoals', headerName: 'PPG', width: 70 },
-    { field: 'powerPlayPoints', headerName: 'PPA', width: 70 },
-    { field: 'powerPlayPointsPer60', headerName: 'PPP/60', width: 70 },
-    { field: 'shots', headerName: 'S', width: 70 },
-    { field: 'shootingpercentage', headerName: 'S%', width: 70 },
-    { field: 'faceoffPercentage', headerName: 'FO%', width: 70 },
+    { field: 'timeOnIce', headerName: 'TOI', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'powerPlayGoals', headerName: 'PPG', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'powerPlayPoints', headerName: 'PPA', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'powerPlayPointsPer60', headerName: 'PPP/60', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'shots', headerName: 'S', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'shootingpercentage', headerName: 'S%', width: 70, headerClassName: 'super-app-theme--header' },
+    { field: 'faceoffPercentage', headerName: 'FO%', width: 70, headerClassName: 'super-app-theme--header' },
 ];
 
 const Fantasy = () => {
 
+    const dispatch = useDispatch();
     const players = useSelector((state) => state.playerReducer.players);
     const goalValue = useSelector((state) => state.playerReducer.goalValue);
     const assistValue = useSelector((state) => state.playerReducer.assistValue);
@@ -60,6 +65,24 @@ const Fantasy = () => {
     const saveValue = useSelector((state) => state.playerReducer.saveValue);
     const shutoutValue = useSelector((state) => state.playerReducer.shutoutValue);
     
+    const [goal, setGoal] = useState(goalValue);
+    const [assist, setAssist] = useState(assistValue);
+
+    const onChangeGoal = (event) => {
+        setGoal(event.target.value);
+    }
+
+    const onChangeAssist = (event) => {
+        setAssist(event.target.value);
+    }
+
+    const onClick = () => {
+        let statValues = {};
+        statValues.goalValue = goal;
+        statValues.assistValue = assist;
+        dispatch(updatePlayerStats(statValues));
+    }
+    
     return (
         <div className='skaters-container'>
             <div style={{ height: '80vh', width: '100%' }}>
@@ -71,7 +94,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -79,13 +102,14 @@ const Fantasy = () => {
                     id="outlined-helperText"
                     label="Goal"
                     defaultValue={goalValue}
+                    onChange={onChangeGoal}
                     />
                     <TextField
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -93,13 +117,14 @@ const Fantasy = () => {
                     id="outlined-helperText"
                     label="Assist"
                     defaultValue={assistValue}
+                    onChange={onChangeAssist}
                     />
                     <TextField
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -113,7 +138,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -127,7 +152,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -141,7 +166,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -155,7 +180,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -169,7 +194,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -183,7 +208,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -197,7 +222,7 @@ const Fantasy = () => {
                         display: 'flex',
                         alignItems: 'center',
                         margin: 0.6,
-                        width: {sm: 55, md: 55},
+                        width: 55,
                         "& .MuiInputBase-root": {
                             height:30
                         }
@@ -206,9 +231,9 @@ const Fantasy = () => {
                     label="Block"
                     defaultValue={blockValue}
                     />
-                    <Button className="fantasy-button" variant="contained">Go</Button>
+                    <Button className="fantasy-button" variant="contained" onClick={() => onClick()}>Go</Button>
                 </div>
-                    <div style={{ flexGrow: 1 }}>
+                    <div className="fantasy-datagrid" style={{ flexGrow: 1 }}>
                         <Box
                             sx={{
                             height: '100%',
@@ -228,6 +253,10 @@ const Fantasy = () => {
                             '& .super-app.replacement': {
                                 backgroundColor: '#facdd0'
                             },
+                            '& .super-app-theme--header': {
+                                backgroundColor: 'rgba(14, 32, 161, 0.4)',
+                                color: '#FFFFFF'
+                            },
                             }}
                         >
                             <DataGrid
@@ -238,6 +267,7 @@ const Fantasy = () => {
                                 }}
                                 columns={columns}
                                 rows={players}
+                                rowHeight={25}
                                 // getRowId={(row) => row.internalId}
                             />
                         </Box>

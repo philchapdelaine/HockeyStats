@@ -134,6 +134,13 @@ const getStats = (data) => {
 //     }
 // };
 
+export const updatePlayerStats = (statValues) => {
+    return {
+        type: "UPDATE_PLAYER_STATS",
+        payload: statValues
+    };
+};
+
 export const fetchPlayerStats = () => {
     return async function(dispatch) {
         dispatch({ type: "FETCH_PLAYER_STATS"});

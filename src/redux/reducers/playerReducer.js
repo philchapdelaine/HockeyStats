@@ -64,6 +64,35 @@ const playerReducer = (state = INITIAL_STATE, action) => {
                 players: allPlayers
             }
         }
+        case "UPDATE_PLAYER_STATS": {
+            let allPlayers = [...state.players];
+            for (let i = 0; i < allPlayers.length; i++) {
+                let curr = allPlayers[i];
+                curr.fantasyPTS = (
+                    (
+                        curr.goals * action.payload.goalValue +
+                        curr.assists * action.payload.assistValue +
+                        curr.powerPlayGoals * state.ppgValue +
+                        curr.powerPlayAssists * state.ppaValue +
+                        curr.hits * state.hitValue +
+                        curr.shots * state.shotValue +
+                        curr.gameWinningGoals * state.gwgValue +
+                        curr.blocks * state.blockValue +
+                        curr.shortHandedGoals * state.shgValue +
+                        curr.shortHandedAssists * state.shaValue
+                        ) || 0
+                    );
+                curr.fantasyPTSPerGame = curr.fantasyPTS / curr.games || 0;
+            }
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                players: allPlayers,
+                goalValue: action.payload.goalValue,
+                assistValue: action.payload.assistValue
+            }
+        }
         default: return state;
     }
 };

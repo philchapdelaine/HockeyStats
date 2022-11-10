@@ -11,8 +11,8 @@ import { crawlPlayers } from 'nhl-api-crawler';
 import { crawlEvents } from 'nhl-api-crawler'
 
 async function testing() {  
-  const events = await crawlEvents('2018-12-05', '2018-12-06');
-  console.log(events);
+  // const events = await crawlEvents('2018-12-05', '2018-12-06');
+  // console.log(events);
   // const players = await crawlPlayers('20182019', '20182019');
   // console.log(players)
 }
@@ -29,7 +29,6 @@ function App() {
     <div className="App">
       <Navbar />
       <Content />
-      <Footer />
     </div>
   );
 }
